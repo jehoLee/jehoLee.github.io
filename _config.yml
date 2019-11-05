@@ -110,7 +110,7 @@ author:
   name             : "Jeho Lee (이제호)"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "Research interest: \n 모바일 및 유비쿼터스 컴퓨팅 시스템을 활용한 context recognition, 머신러닝, HCI"
-  location         : "Suwon, Korea"
+  location         : "Suwon, Korea."
   email            : dlwpgh1994@gmail.com
   links:
     - label: "Email"
@@ -287,8 +287,17 @@ defaults:
       type: posts
     values:
       layout: single
-      author_profile: true
+      author_profile: false
       read_time: true
       comments: # true
       share: true
       related: true
+      sidebar:
+        nav: "sidebar"
+  # _pages
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      author_profile: true
