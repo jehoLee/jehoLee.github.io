@@ -19,3 +19,5 @@ Tensorflow Object Detection API와 관련된 포스트에서는 API를 사용하
 2. Google cloud GPU가 아닌, 본인의 GPU (server 혹은 in-desktop)를 보유하고 있다.
 3. Tensorflow Object detection API에서 제공하는 모델들의 성능을 정확도와 속도 측면에서 비교/분석하고, 자신의 데이터셋 또는 도메인에 적합한 모델을 선정하고 학습시키려 한다.
 
+
+
