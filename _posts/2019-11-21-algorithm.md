@@ -127,13 +127,9 @@ MFKnapsack(i,j)
 
 반면에, Minimum Spanning Tree (MST)와 Shortest path problem은 Greedy approach를 적용하여 항상 Optimal solution을 도출하는 문제로 알려져있다.
 
-![minimum-spanning-tree](/assets/minimum-spanning-tree.png)
-
-
-
-
-
-
+<center>
+  <img src="/assets/images/minimum-spanning-tree.png">
+</center>
 
 
 
