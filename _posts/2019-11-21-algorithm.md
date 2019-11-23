@@ -57,7 +57,7 @@ $$
 
 위 Recurrence relation (재귀식 혹은 점화식)을 구했고 알고리즘 구현에도 그대로 적용할 수 있다. 
 
-Divide-and-Conquer는 위 재귀식을 그대로 사용하여 recursive한 방식으로 코드를 작성하기 때문에 sub-problem이 겹칠 수 있다. 하지만 Dynamic programming은 재귀식에 가장 하위의 instance부터 대입하여 풀어낸 뒤, 그 결과를 추가적인 table에 저장해두고 다음 instance의 결과를 구할 때 참조하는 방식을 취한다. 즉 Fibonacci(0)부터 풀어내고 그 결과를 배열에 따로 저장해둔 뒤, 다음 instance의 결과를 구할 때 이전에 구해둔 결과값을 참조하여 중복 연산을 피할 수 있는 것이다. 
+Divide-and-Conquer는 위 재귀식을 그대로 사용하여 recursive한 방식으로 코드를 작성하기 때문에 sub-problem이 겹칠 수 있다. 하지만 Dynamic programming은 재귀식에 가장 하위의 instance부터 대입하여 풀어낸 뒤, 그 결과를 추가적인 table에 저장해두고 다음 instance의 결과를 구할 때 참조하는 방식을 취한다. 즉 Fibonacci(2)부터 풀어내고 그 결과를 배열에 따로 저장해둔 뒤, 다음 instance의 결과를 구할 때 이전에 구해둔 결과값을 참조하여 중복 연산을 피할 수 있는 것이다. 
 
 이처럼 Dynamic programming은 Divide-and-Conquer와 마찬가지로 재귀식을 도출하여 특정 logic을 일반화시키는 것으로 시작하지만 재귀식을 그대로 코드에 적용하지 않고, 재귀식을 iterative 방식으로 구현함으로써 Bottom-up approach를 취할 수 있다.
 
@@ -105,7 +105,7 @@ Memory function은 Recursive 방식으로 Top-down approach를 취하되, 계산
 
 ```c
 MFKnapsack(i,j)
-  // F[]의 모든 요소는 -1로 초기화 되어있음
+  // F[]의 모든 요소(0행, 0열 제외)는 -1로 초기화 되어있음
   if F[i,j] < 0 // 아직 결과값을 계산하지 않은 instance에 대해
     if j < Weights[i] 
       value = MFKnapsack(i-1, j)
@@ -123,27 +123,34 @@ MFKnapsack(i,j)
 
 ## 3. Greedy Algorithm
 
-위 Knapsack problem을 해결하는 방안으로 가장 쉽게 떠오르는 idea는 가장 큰 value를 가진 item부터 순서대로 포함시키는 것이다. Greedy algorithm은 Dynamic programming과 마찬가지로 보통 Optimization problem을 해결하는데 적용되지만, 문제를 세부적으로 나누어 보지 않는다. 그리고 각 단계에서 최선의 선택을 하는 일련의 과정을 통해 solution을 얻는데, 이러한 방식은 구현하기 쉽지만 모든 문제에 대해 최적의 해결책을 내놓지 못 할수도 있다. 
+위 Knapsack problem을 해결하는 방안으로 가장 쉽게 떠오르는 idea는 가장 큰 value를 가진 item부터 순서대로 포함시키는 것이다. Greedy algorithm은 Dynamic programming과 마찬가지로 보통 Optimization problem을 해결하는데 적용되지만, 문제를 세부적으로 나누어 보지 않는다. 그리고 각 단계에서 최선의 선택을 하는 일련의 과정을 통해 solution을 얻는데,  Minimum Spanning Tree (MST)와 Shortest path problem은 Greedy algorithm을 적용하여 항상 Optimal solution을 도출하는 문제로 알려져있다. 
 
-반면에, Minimum Spanning Tree (MST)와 Shortest path problem은 Greedy approach를 적용하여 항상 Optimal solution을 도출하는 문제로 알려져있다.
+Minimum Spanning Tree (MST)는 모든 node를 포함하고 acyclic하며 edge들의 총 weight가 최소인 sub-tree를 말한다. 전체 Tree가 주어지고 그 Tree의 MST를 찾는 문제는 Greedy approach를 적용하여 풀어낼 수 있으며, 그런 알고리즘으로 Prim과 Kruskal의 알고리즘이 존재한다. 
+
+Prim's algorithm을 통해 아래 그림의 Tree에서 MST를 어떻게 찾아내는지 알아보자.
 
 <center>
   <img src="/assets/images/minimum-spanning-tree.png">
 </center>
 
+Prim의 알고리즘은 시작 node가 존재하며 spanning tree가 시작 node 1개로 이루어진 상태로 시작된다(A node만으로 이루어진 sub-tree). 그리고 각 단계에서 아직 포함되지 않은 node 중, 가장 가까운 node를 spanning tree에 추가하는 방법(greedy approach)을 통해 MST를 구한다. 위 Tree에서는 A, D, F, B, E, C, G 순으로 spanning tree가 확장될 것이며, 모든 node가 MST에 포함되었을 때 알고리즘이 종료된다.
+
+Greedy 방식은 MST와 같은 문제에는 좋지만, Knapsack problem과 같은 특정 Optimization problem에 대해서 항상 최적의 해결책을 내놓는 것을 보장하지 못 한다. 반면에 Dynamic programming은 항상 최적의 해결책을 제시하지만, 모든 sub-instance의 결과값을 계산해야하므로 시간 복잡도가 큰 단점이 존재한다. 이러한 단점을 보완하는 알고리즘은 무엇이 있을까?
 
 
 
+## 4. Backtracking
 
+우리는 Knapsack problem을 Dynamic programming, Greedy algorithm으로 어떻게 해결할 수 있는지 알 수 있었다. Knapsack problem을 설명하는 것은 단순하지만, 사실 이 문제를 해결하는 것은 복잡한 것으로 알려져 있다(NP-complete). Knapsack problem과 같은 해결하기 복잡한 문제들을 푸는 방식은 크게 두 가지로 분류할 수 있다.
 
+1. 최적의 해결책을 정확히 찾아내는 방법 (Exact solution strategy)
+2. 해결책을 근사적으로 찾아내는 방법 (Approximation)
 
+근사적인 방법은 Greedy와 같이 항상 최적의 해결책을 찾아내지 못할 수도 있지만, polynomial time 안에 풀어낼 수 있다(상대적으로 빠른 시간 안에 문제 해결). 반면에 Dynamic programming과 같은 Exact solution strategy는 polynomial time 안에 풀어낸다는 보장은 없어도, 최적의 해결책을 제시한다. 이처럼 Exact solution strategy를 적용해야하는 문제에 대해서 우리가 해야할 일은, 최적의 해결책을 찾아낼 수는 있으니 시간 복잡도를 줄여서 높은 효율성을 달성하는 알고리즘을 구현하는 것이다.
 
+Dynamic programming으로 Knapsack problem을 해결할 때, 불필요한 instance를 계산하는 것을 막기 위해 Memory function을 사용할 수 있음을 알았다. 하지만, Memory function을 사용하는 Dynamic programming 기법은 이름에서도 알 수 있듯이 풀어낸 instance 결과값들을 모두 유지하고 있어야 한다. 최종 해결책을 도출하기 위한 instance가 매우 많은 경우 공간 복잡도가 크게 증가할 것이며, 이는 효율적인 알고리즘이라고 볼 수 없다. 또한 이 방법은 일반적인 재귀적 구현을 사용하기 때문에, 최상위 instance를 해결하기 위한 **모든** 하위 instance를 재귀적으로 호출하게 된다.
 
-
-
-
-
-
+이와 같은 단점을 해결하기 위한 기법으로 **Backtracking**이 존재한다. **Backtracking 기법은 재귀적으로 구현하되, solution으로 도달할 가능성이 없는 instance를 만나면 하위 재귀 호출을 중단하여 시간을 단축시킨다.** 즉 solution의 하위 instance가 모두 필요하지 않을 때, 최종 solution을 얻는데 있어 Dynamic programming 보다 더 빠를 수 있다는 가능성에 초점을 두고 구현하겠다는 것이다.
 
 
 
