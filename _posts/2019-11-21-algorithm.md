@@ -6,7 +6,7 @@ toc: true
 
 알고리즘이 왜 중요할까?
 
-내 생각은 이렇다. 타 학부생들과 경쟁하는 경진대회, 해커톤 등에 참여하면 항상 "알고리즘 마스터" 학생이 등장하여 높은 점수를 획득한다. 우리는 그런 학생들을 코딩천재로 바라보지만, 그들은 단순히 머리가 좋아서가 아니라 수 많은 알고리즘 문제를 풀어보고 코딩한 경험들에 의해 실력을 키웠을 것이다(물론 천재도 있겠지만). 주어진 Computer science task를 해결하기 위해 task가 무엇인지 정확히 파악하고 그에 따른 Solution (algorithm)은 무엇이 적합한지 고민하는 과정에서, 알고리즘 문제를 많이 접해본 사람은 훨씬 수월하게 해결할 것이다.
+내 생각은 이렇다. 타 학부생들과 경쟁하는 경진대회, 해커톤 등에 참여하면 항상 "알고리즘 마스터" 학생이 등장하여 높은 점수를 획득한다. 우리는 그런 학생들을 코딩천재로 바라보지만, 그들은 단순히 머리가 좋아서가 아니라 수 많은 알고리즘 문제를 풀어보고 코딩한 경험들에 의해 실력을 키웠을 것이다. 주어진 Computer science task를 해결하기 위해 task가 무엇인지 정확히 파악하고 그에 따른 Solution (algorithm)은 무엇이 적합한지 고민하는 과정에서, 알고리즘 문제를 많이 접해본 사람은 훨씬 수월하게 해결할 것이다.
 
 이처럼 알고리즘을 많이 접해본 사람들은 새로이 주어진 Task의 해결책이 되는 알고리즘이 무엇인지 생각해낼 수 있는 힘을 갖고 있다. 또 알고리즘 구현 경험이 많은 사람들은 Task가 가진 조건에 맞는 최적의 프로그램을 개발할 수 있는 능력을 갖고 있다.
 
@@ -17,7 +17,6 @@ toc: true
 - **Dynamic programming**
 - **Greedy approach**
 - **Backtracking**
-- **Branch-and-Bound**
 
 -----
 
@@ -148,9 +147,62 @@ Greedy 방식은 MST와 같은 문제에는 좋지만, Knapsack problem과 같�
 
 근사적인 방법은 Greedy와 같이 항상 최적의 해결책을 찾아내지 못할 수도 있지만, polynomial time 안에 풀어낼 수 있다(상대적으로 빠른 시간 안에 문제 해결). 반면에 Dynamic programming과 같은 Exact solution strategy는 polynomial time 안에 풀어낸다는 보장은 없어도, 최적의 해결책을 제시한다. 이처럼 Exact solution strategy를 적용해야하는 문제에 대해서 우리가 해야할 일은, 최적의 해결책을 찾아낼 수는 있으니 시간 복잡도를 줄여서 높은 효율성을 달성하는 알고리즘을 구현하는 것이다.
 
-Dynamic programming으로 Knapsack problem을 해결할 때, 불필요한 instance를 계산하는 것을 막기 위해 Memory function을 사용할 수 있음을 알았다. 하지만, Memory function을 사용하는 Dynamic programming 기법은 이름에서도 알 수 있듯이 풀어낸 instance 결과값들을 모두 유지하고 있어야 한다. 최종 해결책을 도출하기 위한 instance가 매우 많은 경우 공간 복잡도가 크게 증가할 것이며, 이는 효율적인 알고리즘이라고 볼 수 없다. 또한 이 방법은 일반적인 재귀적 구현을 사용하기 때문에, 최상위 instance를 해결하기 위한 **모든** 하위 instance를 재귀적으로 호출하게 된다.
+Dynamic programming으로 Knapsack problem을 해결할 때, 불필요한 instance를 계산하는 것을 막기 위해 Memory function을 사용할 수 있음을 알았다. 하지만, Memory function을 사용하는 Dynamic programming 기법은 최종 해결책을 도출하기 위한 instance가 매우 많은 경우라도 결과값들을 모두 유지하고 있어야 한다. 또한 이 방법은 일반적인 재귀적 구현을 사용하기 때문에, 최상위 instance를 해결하기 위한 모든 하위 instance를 재귀적으로 호출하게 되고 많은 시간이 걸리게 될 것이므로 가장 효율적인 알고리즘 기법이라고 볼 수는 없다.
 
-이와 같은 단점을 해결하기 위한 기법으로 **Backtracking**이 존재한다. **Backtracking 기법은 재귀적으로 구현하되, solution으로 도달할 가능성이 없는 instance를 만나면 하위 재귀 호출을 중단하여 시간을 단축시킨다.** 즉 solution의 하위 instance가 모두 필요하지 않을 때, 최종 solution을 얻는데 있어 Dynamic programming 보다 더 빠를 수 있다는 가능성에 초점을 두고 구현하겠다는 것이다.
+이와 같은 단점을 해결하기 위한 기법으로 **Backtracking**이 있다. Backtracking 기법은 재귀적으로 구현하되, solution으로 도달할 가능성이 없는 instance를 만나면 하위 재귀 호출을 중단하여 시간을 단축시킨다. 즉 solution의 하위 instance가 모두 필요하지 않을 때, 최종 solution을 얻는데 있어 Dynamic programming 보다 더 빠를 수 있다는 가능성에 초점을 두고 구현하겠다는 것이다. Backtracking의 기본 idea는 다음과 같다.
+
+1. 주어진 문제에 대해, **State-space tree를 구성한다.**
+
+   이때, 각각의 node는 부분적인 solution을 나타내고 (전체 problem의 세부 instance), edge는 부분적인 solution을 어떻게 확장하는지 그 선택에 따라 나뉜다. 
+
+2. **State-space tree를 Depth-first search(DFS) 방식으로 확장 (또는 순회)한다.**
+
+   tree를 DFS 방식으로 순회한다는 것은 pre-order travelsal을 한다는 것과 동일하며, 알고리즘 구현 상 재귀적 구현을 통해 DFS 방식을 취할 수 있다.
+
+3. **Non-promising node에 대해 pruning 한다.**
+
+   현 node가 solution이 될 가능성이 없는 node로 판명(nonpromising node) 났을 때, 해당 node의 모든 하위 node는 볼 필요 없다(pruning, 가지치기). 따라서 non-promising node를 만나면 parent node로 돌아가서(backtrack) DFS를 계속 진행한다.
+
+위 idea를 구현한 Backtracking의 기본적인 알고리즘 구현은 다음과 같다.
+
+```c
+void checknode(node v){
+  node u;
+  if (promising(v)){
+    if (there is a solution at v)
+      write the solution;
+    else
+      for (each child u of v)
+        checknode(u);
+  }
+}
+```
+
+
+
+### 4-1. Knapsack problem solving by Backtracking
+
+Knapsack problem을 풀기 위해 먼저 state-space tree를 구성해야 한다. 
+
+<center>
+  <img src="/assets/images/backtracking_knapsack.jpg">
+</center>
+
+위 그림의 state-space tree는 각 item이 포함되는지 또는 포함되지 않는지에 따라 edge가 나뉘고, tree의 level은 각각의 item을 나타낸다. 위 tree의 빨간 node는 non-promising node로 solution이 될 가능성이 없는 node이므로, 더 이상 확장하지 않는다(pruning). 이와 같이, Backtracking 방식은 Exact solution strategy를 사용하지만 solution이 될 가능성이 없는 instance (node)를 무시함으로써 시간 복잡도를 줄일 수 있다.
+
+Backtracking 기법의 시간 복잡도는 node의 promising check를 어떻게 정의하는가에 따라 다르다. 특정 문제를 Backtracking으로 해결하려 할때 문제의 최종 solution을 어떻게 구해낼 수 있을지 고민하는 것도 중요하지만, solution에 도달할 가능성이 없는 경우를 제외시키는 것은 알고리즘의 효율성에 있어 매우 중요하다. 
+
+Knapsack problem의 자세한 promising 구문 설명은 [여기](https://www.kancloud.cn/leavor/cplusplus/630545)를 참고하길 바란다.
+
+
+
+
+
+
+
+
+
+
 
 
 
